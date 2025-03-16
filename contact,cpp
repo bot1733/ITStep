@@ -1,1 +1,18 @@
+#include <iostream>
+#include "Contact.h"
+
+
+Contact::Contact() : phone(""), city(""), country("") {}
+
+// Конструктор з параметрами
+Contact::Contact(const std::string& phone, const std::string& city, const std::string& country)
+    : phone(phone), city(city), country(country) {}
+
+// Метод для виведення інформації
+void Contact::Show() const {
+    std::cout << "Phone: " << phone << ", City: " << city << ", Country: " << country << std::endl;
+}
+
+// Деструктор
+Contact::~Contact() {}
 
