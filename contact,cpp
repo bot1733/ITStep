@@ -1,11 +1,1 @@
-#include "Contact.h"
-
-Contact::Contact(const std::string& phone, const std::string& city, const std::string& country)
-    : phone(phone), city(city), country(country) {}
-
-Contact::Contact() : Contact("Unknown", "Unknown", "Unknown") {}
-
-void Contact::Show() const {
-    std::cout << "Phone: " << phone << ", City: " << city << ", Country: " << country << std::endl;
-}
 
