@@ -1,0 +1,23 @@
+#ifndef FRACTION_H
+#define FRACTION_H
+
+#include <iostream>
+#include <numeric>
+
+class Fraction {
+private:
+    int numerator;
+    int denominator;
+    void simplify();
+
+public:
+    Fraction(int num = 0, int den = 1);
+    void input();
+    void display() const;
+    Fraction operator+(const Fraction &other) const;
+    Fraction operator-(const Fraction &other) const;
+    Fraction operator*(const Fraction &other) const;
+    Fraction operator/(const Fraction &other) const;
+};
+
+#endif 
