@@ -1,0 +1,54 @@
+#include "Fraction.h"
+
+void Fraction::simplify() {
+    int gcd = std::gcd(numerator, denominator);
+    numerator /= gcd;
+    denominator /= gcd;
+    if (denominator < 0) {
+        numerator = -numerator;
+        denominator = -denominator;
+    }
+}
+
+Fraction::Fraction(int num, int den) : numerator(num), denominator(den) {
+    if (denominator == 0) {
+        throw std::invalid_argument("Denominator cannot be zero");
+    }
+    simplify();
+}
+
+void Fraction::input() {
+    std::cout << "Введіть чисельник: ";
+    std::cin >> numerator;
+    std::cout << "Введіть знаменник: ";
+    std::cin >> denominator;
+    if (denominator == 0) {
+        throw std::invalid_argument("Denominator cannot be zero");
+    }
+    simplify();
+}
+
+void Fraction::display() const {
+    std::cout << numerator << "/" << denominator << std::endl;
+}
+
+Fraction Fraction::operator+(const Fraction &other) const {
+    return Fraction(numerator * other.denominator + other.numerator * denominator,
+                    denominator * other.denominator);
+}
+
+Fraction Fraction::operator-(const Fraction &other) const {
+    return Fraction(numerator * other.denominator - other.numerator * denominator,
+                    denominator * other.denominator);
+}
+
+Fraction Fraction::operator*(const Fraction &other) const {
+    return Fraction(numerator * other.numerator, denominator * other.denominator);
+}
+
+Fraction Fraction::operator/(const Fraction &other) const {
+    if (other.numerator == 0) {
+        throw std::invalid_argument("Cannot divide by zero");
+    }
+    return Fraction(numerator * other.denominator, denominator * other.numerator);
+}
