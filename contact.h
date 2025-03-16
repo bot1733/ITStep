@@ -1,17 +1,15 @@
-#ifndef CONTACT_H
-#define CONTACT_H
-#include <iostream>
-#include <string>
+#ifndef COLLAGE_H
+#define COLLAGE_H
+#include "Contact.h"
 
-class Contact {
+class Collage {
 private:
-    std::string phone;
-    std::string city;
-    std::string country;
+    Contact contact;
+    std::string name;
 public:
-    Contact(const std::string& phone, const std::string& city, const std::string& country);
-    Contact();
+    Collage(const std::string& name, const Contact& contact);
+    Collage();
     void Show() const;
 };
 
-#endif // CONTACT_H
+#endif // COLLAGE_H
