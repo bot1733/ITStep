@@ -1,0 +1,21 @@
+#ifndef STUDENT_H
+#define STUDENT_H
+
+#include <string>
+#include <iostream>
+#include "College.h"
+
+class Student {
+private:
+    std::string fullName;
+    std::string birthDate;
+    Contact* contact;
+    College* college;
+
+public:
+    
+    Student(const std::string& fullName, const std::string& birthDate, Contact* contact, College* college);
+    void Show() const;
+    ~Student();
+};
+#endif
