@@ -1,22 +1,23 @@
-﻿#include <iostream>
+#ifndef COLLEGE_H
+#define COLLEGE_H
+
 #include "Contact.h"
+#include <iostream>
+#include <string>
 
+class College {
+private:
+    Contact contact;
+    std::string name;
 
-Contact::Contact() : Contact("N/A", "N/A", "N/A") {}
+public:
+    
+    College();
+    
+    College(const std::string& name);
+    College(const std::string& name, const Contact& contact);
 
+    void Show() const;
+};
 
-Contact::Contact(const std::string& phone) : Contact(phone, "N/A", "N/A") {}
-
-
-Contact::Contact(const std::string& phone, const std::string& city) : Contact(phone, city, "N/A") {}
-
-
-Contact::Contact(const std::string& phone, const std::string& city, const std::string& country)
-    : phone(phone), city(city), country(country) {}
-
-
-void Contact::Show() const {
-    std::cout << "Телефон: " << phone << "\\n";
-    std::cout << "Місто: " << city << "\\n";
-    std::cout << "Країна: " << country << "\\n";
-}
+#endif
