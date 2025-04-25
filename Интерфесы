@@ -1,0 +1,161 @@
+﻿using System;
+
+interface ICalc
+{
+    int Less(int valueToCompare);
+    int Greater(int valueToCompare);
+}
+
+interface IOutput2
+{
+    void ShowEven();
+    void ShowOdd();
+}
+
+interface ICalc2
+{
+    int CountDistinct();
+    int EqualToValue(int valueToCompare);
+}
+
+class Array : ICalc, IOutput2, ICalc2
+{
+    private int[] arr;
+
+    public Array(int size)
+    {
+        arr = new int[size];
+    }
+
+    public Array(int size, int minValue, int maxValue)
+    {
+        arr = new int[size];
+        Random rand = new Random();
+        for (int i = 0; i < size; i++)
+        {
+            arr[i] = rand.Next(minValue, maxValue);
+        }
+    }
+
+    public void Display()
+    {
+        Console.WriteLine("Array elements:");
+        foreach (int item in arr)
+        {
+            Console.Write($"{item} ");
+        }
+        Console.WriteLine();
+    }
+    public int Less(int valueToCompare)
+    {
+        int count = 0;
+        foreach (int item in arr)
+        {
+            if (item < valueToCompare)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int Greater(int valueToCompare)
+    {
+        int count = 0;
+        foreach (int item in arr)
+        {
+            if (item > valueToCompare)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public void ShowEven()
+    {
+        Console.Write("Even elements: ");
+        foreach (int item in arr)
+        {
+            if (item % 2 == 0)
+            {
+                Console.Write($"{item} ");
+            }
+        }
+        Console.WriteLine();
+    }
+
+    public void ShowOdd()
+    {
+        Console.Write("Odd elements: ");
+        foreach (int item in arr)
+        {
+            if (item % 2 != 0)
+            {
+                Console.Write($"{item} ");
+            }
+        }
+        Console.WriteLine();
+    }
+
+    public int CountDistinct()
+    {
+        if (arr.Length == 0)
+        {
+            return 0;
+        }
+        int[] sortedArr = new int[arr.Length];
+        System.Array.Copy(arr, sortedArr, arr.Length);
+        System.Array.Sort(sortedArr);
+
+        int distinctCount = 1;
+
+        for (int i = 1; i < sortedArr.Length; i++)
+        {
+            if (sortedArr[i] != sortedArr[i - 1])
+            {
+                distinctCount++;
+            }
+        }
+        return distinctCount;
+    }
+
+    public int EqualToValue(int valueToCompare)
+    {
+        int count = 0;
+        foreach (int item in arr)
+        {
+            if (item == valueToCompare)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Array array = new Array(10, 1, 100);
+        array.Display();
+
+        // task 1
+
+        int compareValue = 50;
+        Console.WriteLine($"Number of elements less than {compareValue}: {array.Less(compareValue)}");
+        Console.WriteLine($"Number of elements greater than {compareValue}: {array.Greater(compareValue)}");
+
+        // task 2
+
+        array.ShowEven();
+        array.ShowOdd();
+
+        // task 3
+
+        Console.WriteLine($"Number of distinct elements: {array.CountDistinct()}");
+        int equalValue = 10;
+        Console.WriteLine($"Number of elements equal to {equalValue}: {array.EqualToValue(equalValue)}");
+    }
+}
