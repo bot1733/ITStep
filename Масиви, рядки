@@ -1,0 +1,326 @@
+using System.Text.RegularExpressions;
+
+namespace ArrayAndString
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Task 1:");
+            Task1();
+
+            Console.WriteLine("\nTask 2:");
+            Task2();
+
+            Console.WriteLine("\nTask 3:");
+            Task3();
+
+            Console.WriteLine("\nTask 4:");
+            Task4();
+
+            Console.ReadKey();
+        }
+
+        static void Task1()
+        {
+            double[] A = new double[5];
+            double[,] B = new double[3, 4];
+            Random random = new Random();
+
+            Console.WriteLine("Enter 5 numbers for array A:");
+            for (int i = 0; i < A.Length; i++)
+            {
+                Console.Write($"A[{i}] = ");
+                while (!double.TryParse(Console.ReadLine(), out A[i]))
+                {
+                    Console.WriteLine("Error! Please enter a number.");
+                    Console.Write($"A[{i}] = ");
+                }
+            }
+
+            for (int i = 0; i < B.GetLength(0); i++)
+            {
+                for (int j = 0; j < B.GetLength(1); j++)
+                {
+                    B[i, j] = random.NextDouble() * 100;
+                }
+            }
+
+            Console.WriteLine("\nArray A:");
+            foreach (var element in A)
+            {
+                Console.Write($"{element:F2} ");
+            }
+
+            Console.WriteLine("\n\nArray B:");
+            for (int i = 0; i < B.GetLength(0); i++)
+            {
+                for (int j = 0; j < B.GetLength(1); j++)
+                {
+                    Console.Write($"{B[i, j]:F2}\t");
+                }
+                Console.WriteLine();
+            }
+
+            double maxA = A[0];
+            foreach (var element in A)
+            {
+                if (element > maxA)
+                    maxA = element;
+            }
+
+            double maxB = B[0, 0];
+            foreach (var element in B)
+            {
+                if (element > maxB)
+                    maxB = element;
+            }
+
+            double maxCommon = Math.Max(maxA, maxB);
+
+            double minA = A[0];
+            foreach (var element in A)
+            {
+                if (element < minA)
+                    minA = element;
+            }
+
+            double minB = B[0, 0];
+            foreach (var element in B)
+            {
+                if (element < minB)
+                    minB = element;
+            }
+
+            double minCommon = Math.Min(minA, minB);
+
+            double sumA = 0;
+            foreach (var element in A)
+            {
+                sumA += element;
+            }
+
+            double sumB = 0;
+            foreach (var element in B)
+            {
+                sumB += element;
+            }
+
+            double sumCommon = sumA + sumB;
+
+            double productA = 1;
+            foreach (var element in A)
+            {
+                productA *= element;
+            }
+
+            double productB = 1;
+            foreach (var element in B)
+            {
+                productB *= element;
+            }
+
+            double productCommon = productA * productB;
+
+            double sumEvenA = 0;
+            for (int i = 0; i < A.Length; i += 2)
+            {
+                sumEvenA += A[i];
+            }
+
+            double sumOddColumnsB = 0;
+            for (int j = 1; j < B.GetLength(1); j += 2)
+            {
+                for (int i = 0; i < B.GetLength(0); i++)
+                {
+                    sumOddColumnsB += B[i, j];
+                }
+            }
+
+            Console.WriteLine("\nResults:");
+            Console.WriteLine($"Common maximum element: {maxCommon:F2}");
+            Console.WriteLine($"Common minimum element: {minCommon:F2}");
+            Console.WriteLine($"Common sum of all elements: {sumCommon:F2}");
+            Console.WriteLine($"Common product of all elements: {productCommon:E2}");
+            Console.WriteLine($"Sum of even elements in array A: {sumEvenA:F2}");
+            Console.WriteLine($"Sum of odd columns in array B: {sumOddColumnsB:F2}");
+        }
+
+        static void Task2()
+        {
+            int[,] array = new int[5, 5];
+            Random random = new Random();
+
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                for (int j = 0; j < array.GetLength(1); j++)
+                {
+                    array[i, j] = random.Next(-100, 101);
+                }
+            }
+
+            Console.WriteLine("Two-dimensional array 5x5:");
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                for (int j = 0; j < array.GetLength(1); j++)
+                {
+                    Console.Write($"{array[i, j],4} ");
+                }
+                Console.WriteLine();
+            }
+
+            int min = array[0, 0], max = array[0, 0];
+            int minI = 0, minJ = 0, maxI = 0, maxJ = 0;
+
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                for (int j = 0; j < array.GetLength(1); j++)
+                {
+                    if (array[i, j] < min)
+                    {
+                        min = array[i, j];
+                        minI = i;
+                        minJ = j;
+                    }
+                    if (array[i, j] > max)
+                    {
+                        max = array[i, j];
+                        maxI = i;
+                        maxJ = j;
+                    }
+                }
+            }
+
+            Console.WriteLine($"Minimum element: {min} at position [{minI}, {minJ}]");
+            Console.WriteLine($"Maximum element: {max} at position [{maxI}, {maxJ}]");
+
+            int minIndex = minI * array.GetLength(1) + minJ;
+            int maxIndex = maxI * array.GetLength(1) + maxJ;
+
+            if (maxIndex < minIndex)
+            {
+                int temp = minIndex;
+                minIndex = maxIndex;
+                maxIndex = temp;
+            }
+
+            int sum = 0;
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                for (int j = 0; j < array.GetLength(1); j++)
+                {
+                    int currentIndex = i * array.GetLength(1) + j;
+                    if (currentIndex > minIndex && currentIndex < maxIndex)
+                    {
+                        sum += array[i, j];
+                    }
+                }
+            }
+
+            Console.WriteLine($"Sum of elements between minimum and maximum: {sum}");
+        }
+
+        static void Task3()
+        {
+            Console.WriteLine("Enter an arithmetic expression (only + and - operations are supported):");
+            string expression = Console.ReadLine();
+
+            expression = expression.Replace(" ", "");
+
+            string[] numbers = expression.Split(new char[] { '+', '-' }, StringSplitOptions.None);
+            List<char> operators = new List<char>();
+
+            foreach (char c in expression)
+            {
+                if (c == '+' || c == '-')
+                {
+                    operators.Add(c);
+                }
+            }
+
+            if (numbers.Length == 0 || (numbers.Length - 1 != operators.Count && numbers[0] != ""))
+            {
+                Console.WriteLine("Invalid expression");
+                return;
+            }
+
+            double result = 0;
+            int startIndex = 0;
+
+            if (numbers[0] == "" && operators.Count > 0 && operators[0] == '-')
+            {
+                if (numbers.Length > 1 && double.TryParse(numbers[1], out double firstNumber))
+                {
+                    result = -firstNumber;
+                    startIndex = 2;
+                    operators.RemoveAt(0);
+                }
+                else
+                {
+                    Console.WriteLine("Invalid expression");
+                    return;
+                }
+            }
+            else if (double.TryParse(numbers[0], out double firstNumber))
+            {
+                result = firstNumber;
+                startIndex = 1;
+            }
+            else
+            {
+                Console.WriteLine("Invalid expression");
+                return;
+            }
+
+            for (int i = startIndex; i < numbers.Length && i - startIndex < operators.Count; i++)
+            {
+                if (double.TryParse(numbers[i], out double number))
+                {
+                    if (operators[i - startIndex] == '+')
+                    {
+                        result += number;
+                    }
+                    else if (operators[i - startIndex] == '-')
+                    {
+                        result -= number;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid expression");
+                    return;
+                }
+            }
+
+            Console.WriteLine($"Result: {result}");
+        }
+
+        static void Task4()
+        {
+            string text = "To be, or not to be, that is the question, Whether 'tis nobler in the mind to suffer The slings and arrows of outrageous fortune, Or to take arms against a sea of troubles, And by opposing end them? To die: to sleep; No more; and by a sleep to say we end The heart-ache and the thousand natural shocks That flesh is heir to, 'tis a consummation Devoutly to be wish'd. To die, to sleep";
+
+            Console.WriteLine("Original text:");
+            Console.WriteLine(text);
+
+            Console.WriteLine("\nEnter forbidden word:");
+            string forbiddenWord = Console.ReadLine().Trim().ToLower();
+
+            if (string.IsNullOrEmpty(forbiddenWord))
+            {
+                Console.WriteLine("No word entered");
+                return;
+            }
+
+            string pattern = $@"\b{Regex.Escape(forbiddenWord)}\b";
+            Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+
+            string censoredText = regex.Replace(text, new string('*', forbiddenWord.Length));
+
+            int replacementCount = regex.Matches(text).Count;
+
+            Console.WriteLine("\nResult:");
+            Console.WriteLine(censoredText);
+            Console.WriteLine($"\nStatistics: {replacementCount} replacements of word {forbiddenWord}.");
+        }
+    }
+}
